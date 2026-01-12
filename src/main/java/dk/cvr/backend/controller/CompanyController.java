@@ -2,8 +2,7 @@ package dk.cvr.backend.controller;
 
 // Project imports
 import dk.cvr.backend.be.Cvr;
-import dk.cvr.backend.dal.CvrDAO;
-import dk.cvr.backend.dal.ICvrDAO;
+import dk.cvr.backend.bll.CvrManager;
 
 // Spring imports
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/company")
 public class CompanyController {
-    private ICvrDAO dao = new CvrDAO();
+    private CvrManager manager = new CvrManager();
 
     @GetMapping("/{cvr}")
     public Cvr getCompany(@PathVariable String cvr) {
         try {
-            return dao.getCvrByNumber(cvr);
+            return manager.getCvrByNumber(cvr);
         } catch (Exception e) {
             // Display error to user?????
             System.out.println(e.getMessage());
