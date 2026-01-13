@@ -7,6 +7,9 @@ import com.google.gson.JsonSyntaxException;
 
 // Project imports
 import dk.cvr.backend.be.Cvr;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 // Java imports
 import java.io.File;
@@ -17,6 +20,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Properties;
+
 
 public class CvrDAO implements ICvrDAO
 {
@@ -45,7 +49,7 @@ public class CvrDAO implements ICvrDAO
 
     public Cvr getCvrByNumber(String cvrNumber) throws Exception {
         if (cvrNumber == null || cvrNumber.trim().isEmpty()) {
-            throw new Exception("CVR number cannot be null or empty");
+            throw new IllegalArgumentException("CVR number cannot be null or empty");
         }
 
         try {
@@ -99,27 +103,15 @@ public class CvrDAO implements ICvrDAO
     private static String getAPIKey() {
         Properties accessKey = new Properties();
         try {
-            accessKey.load(new FileInputStream(new File("config/API.key")));
+            File keyFile = new File("config/API.key");
+            if (!keyFile.exists()) {
+                throw new RuntimeException("API.key file is missing, place it in the config package.");
+            }
+            accessKey.load(new FileInputStream(keyFile));
         } catch (IOException e) {
-            // Display error to user // Throw exception upwards instead
-            throw new RuntimeException("Could not get API_Key");
+            throw new RuntimeException("Failed to read API.key");
         }
         return accessKey.getProperty("API_Key");
-    }
-
-    public static void main(String[] args) {
-        CvrDAO dao = new CvrDAO();
-        try {
-            System.out.println("Starting CVR lookup...");
-            Cvr test = dao.getCvrByNumber("43342878");
-            System.out.println("Success! Company name: " + test.getName());
-            System.out.println("Address: " + test.getAddress());
-            System.out.println("City: " + test.getCity());
-        } catch (Exception e) {
-            System.out.println("Failed test method");
-            System.out.println("Error message: " + e.getMessage());
-            e.printStackTrace();
-        }
     }
 
 }
