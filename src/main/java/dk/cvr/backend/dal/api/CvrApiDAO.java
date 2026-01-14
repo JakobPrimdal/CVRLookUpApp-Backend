@@ -1,4 +1,4 @@
-package dk.cvr.backend.dal;
+package dk.cvr.backend.dal.api;
 
 // Maven dependencies
 import com.google.gson.Gson;
@@ -7,9 +7,7 @@ import com.google.gson.JsonSyntaxException;
 
 // Project imports
 import dk.cvr.backend.be.Cvr;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import dk.cvr.backend.dal.ICvrApiDAO;
 
 // Java imports
 import java.io.File;
@@ -22,13 +20,13 @@ import java.net.http.HttpResponse;
 import java.util.Properties;
 
 
-public class CvrDAO implements ICvrDAO
+public class CvrApiDAO implements ICvrApiDAO
 {
     private static final String BASE_URL = "https://virkdata.dk/api/";
     private final HttpClient httpClient;
     private final Gson gson;
 
-    public CvrDAO() {
+    public CvrApiDAO() {
         this.httpClient = HttpClient.newHttpClient();
         // Configure Gson to handle the field name mapping
         this.gson = new GsonBuilder()

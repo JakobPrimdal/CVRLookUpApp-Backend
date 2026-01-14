@@ -1,5 +1,8 @@
 package dk.cvr.backend.be;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public class Cvr {
     private String vat;                    // CVR-nummer
     private String status;                 // Status (Aktiv, ophørt, under konkurs)
@@ -12,15 +15,16 @@ public class Cvr {
     private String website;                // Hjemmeside
     private String email;                  // Email
     private String fax;                    // Faxnummer
-    private String startdate;              // Etableret dato (YYYY-MM-DD)
-    private String enddate;                // Lukket dato (YYYY-MM-DD)
+    private String startDate;              // Etableret dato (YYYY-MM-DD)
+    private String endDate;                // Lukket dato (YYYY-MM-DD)
     private Integer employees;             // Antal medarbejdere
-    private Integer industrycode;          // Branchekode nummer
-    private String industrydesc;           // Branchekode beskrivelse
-    private String companytype;            // Virksomhedstype (kort)
-    private String companydesc;            // Virksomhedstype (fuld)
+    private Integer industryCode;          // Branchekode nummer
+    private String industryDesc;           // Branchekode beskrivelse
+    private String companyType;            // Virksomhedstype (kort)
+    private String companyDesc;            // Virksomhedstype (fuld)
     private String[] owners;               // Ejere (array)
     private FinancialSummary[] financialSummary;  // Regnskabsdata (array)
+    private LocalDateTime lastUpdated;
 
     // Financial summary
     public static class FinancialSummary {
@@ -120,16 +124,16 @@ public class Cvr {
             this.fax = fax;
     }
 
-    public String getStartdate() { return startdate; }
-    public void setStartdate(String startdate) {
-        if (startdate != null)
-            this.startdate = startdate;
+    public String getStartdate() { return startDate; }
+    public void setStartdate(LocalDate startDate) {
+        if (startDate != null)
+            this.startDate = String.valueOf(startDate);
     }
 
-    public String getEnddate() { return enddate; }
-    public void setEnddate(String enddate) {
-        if (enddate != null)
-            this.enddate = enddate;
+    public String getEnddate() { return endDate; }
+    public void setEnddate(LocalDate endDate) {
+        if (endDate != null)
+            this.endDate = String.valueOf(endDate);
     }
 
     public Integer getEmployees() { return employees; }
@@ -138,28 +142,28 @@ public class Cvr {
             this.employees = employees;
     }
 
-    public Integer getIndustrycode() { return industrycode; }
+    public Integer getIndustrycode() { return industryCode; }
     public void setIndustrycode(Integer industrycode) {
         if (industrycode != null)
-            this.industrycode = industrycode;
+            this.industryCode = industrycode;
     }
 
-    public String getIndustrydesc() { return industrydesc; }
+    public String getIndustrydesc() { return industryDesc; }
     public void setIndustrydesc(String industrydesc) {
         if (industrydesc != null)
-            this.industrydesc = industrydesc;
+            this.industryDesc = industrydesc;
     }
 
-    public String getCompanytype() { return companytype; }
+    public String getCompanytype() { return companyType; }
     public void setCompanytype(String companytype) {
         if (companytype != null)
-            this.companytype = companytype;
+            this.companyType = companytype;
     }
 
-    public String getCompanydesc() { return companydesc; }
+    public String getCompanydesc() { return companyDesc; }
     public void setCompanydesc(String companydesc) {
         if (companydesc != null)
-            this.companydesc = companydesc;
+            this.companyDesc = companydesc;
     }
 
     public String[] getOwners() { return owners; }
@@ -172,6 +176,12 @@ public class Cvr {
     public void setFinancialSummary(FinancialSummary[] financialSummary) {
         if (financialSummary != null)
             this.financialSummary = financialSummary;
+    }
+
+    public LocalDateTime getLastUpdated() { return lastUpdated; }
+    public void setLastUpdated(LocalDateTime lastUpdated) {
+        if (lastUpdated != null)
+            this.lastUpdated = lastUpdated;
     }
 
     @Override
