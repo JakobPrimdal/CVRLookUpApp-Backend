@@ -1,4 +1,4 @@
-CVR Lookup Application - 
+CVR Lookup Application - Backend
 
 * A Spring Boot backend service that provides a REST API for looking up publicly available information about Danish companies using their CVR number.
 * The backend acts as an intermediary between the frontend application and the external CVR data provider, ensuring secure API access and clean separation of concerns.
