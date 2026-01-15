@@ -24,7 +24,7 @@ public class Cvr {
     private String companyDesc;            // Virksomhedstype (fuld)
     private String[] owners;               // Ejere (array)
     private FinancialSummary[] financialSummary;  // Regnskabsdata (array)
-    private LocalDateTime lastUpdated;
+    private String lastUpdated;
 
     // Financial summary
     public static class FinancialSummary {
@@ -178,10 +178,10 @@ public class Cvr {
             this.financialSummary = financialSummary;
     }
 
-    public LocalDateTime getLastUpdated() { return lastUpdated; }
+    public String getLastUpdated() { return lastUpdated; }
     public void setLastUpdated(LocalDateTime lastUpdated) {
         if (lastUpdated != null)
-            this.lastUpdated = lastUpdated;
+            this.lastUpdated = lastUpdated.toString();
     }
 
     @Override

@@ -13,7 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/company")
 public class CompanyController {
-    private CvrManager manager = new CvrManager();
+    private CvrManager manager;
+
+    public CompanyController() {
+        try {
+            manager = new CvrManager();
+        } catch (Exception e) {
+            // Display error to user???
+            throw new RuntimeException(e);
+        }
+    }
 
     @GetMapping("/{cvr}")
     public Cvr getCompany(@PathVariable String cvr) {

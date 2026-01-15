@@ -46,12 +46,8 @@ public class CvrApiDAO implements ICvrApiDAO
 
 
     public Cvr getCvrByNumber(String cvrNumber) throws Exception {
-        if (cvrNumber == null || cvrNumber.trim().isEmpty()) {
-            throw new IllegalArgumentException("CVR number cannot be null or empty");
-        }
-
         try {
-            String url = BASE_URL + "?search=" + cvrNumber.trim() + "&country=dk";
+            String url = BASE_URL + "?search=" + cvrNumber.trim() + "&format=json&country=dk";
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
