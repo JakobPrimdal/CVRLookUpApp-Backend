@@ -127,41 +127,40 @@ public class CvrDbDAO implements ICvrDbDAO {
         try (Connection conn = databaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, cvr.getVat());
-            stmt.setString(2, cvr.getName());
-            stmt.setString(3, cvr.getAddress());
-            stmt.setString(4, cvr.getCity());
+            stmt.setString(1, cvr.getName());
+            stmt.setString(2, cvr.getAddress());
+            stmt.setString(3, cvr.getCity());
 
             Integer zipcode = cvr.getZipcode();
             if (zipcode != null) {
-                stmt.setInt(5, zipcode);
+                stmt.setInt(4, zipcode);
             } else {
-                stmt.setNull(5, Types.INTEGER);
+                stmt.setNull(4, Types.INTEGER);
             }
 
-            stmt.setString(6, cvr.getCompanydesc());
-            stmt.setString(7, cvr.getCompanytype());
-            stmt.setString(8, cvr.getStatus());
-            stmt.setString(9, cvr.getIndustrydesc());
+            stmt.setString(5, cvr.getCompanydesc());
+            stmt.setString(6, cvr.getCompanytype());
+            stmt.setString(7, cvr.getStatus());
+            stmt.setString(8, cvr.getIndustrydesc());
 
             Integer industryCode = cvr.getIndustrycode();
             if (industryCode != null) {
-                stmt.setInt(10, industryCode);
+                stmt.setInt(9, industryCode);
             } else {
-                stmt.setNull(10, Types.INTEGER);
+                stmt.setNull(9, Types.INTEGER);
             }
 
             Integer employees = cvr.getEmployees();
             if (employees != null) {
-                stmt.setInt(11, employees);
+                stmt.setInt(10, employees);
             } else {
-                stmt.setNull(11, Types.INTEGER);
+                stmt.setNull(10, Types.INTEGER);
             }
 
-            stmt.setString(12, cvr.getPhone());
-            stmt.setString(13, cvr.getFax());
-            stmt.setString(14, cvr.getEmail());
-            stmt.setString(15, cvr.getWebsite());
+            stmt.setString(11, cvr.getPhone());
+            stmt.setString(12, cvr.getFax());
+            stmt.setString(13, cvr.getEmail());
+            stmt.setString(14, cvr.getWebsite());
             LocalDate startDate = null;
             if (cvr.getStartdate() != null && !cvr.getStartdate().isEmpty()) {
                 startDate = LocalDate.parse(cvr.getStartdate());
@@ -172,8 +171,8 @@ public class CvrDbDAO implements ICvrDbDAO {
                 endDate = LocalDate.parse(cvr.getEnddate());
             }
 
-            stmt.setDate(16, startDate != null ? Date.valueOf(startDate) : null);
-            stmt.setDate(17, endDate != null ? Date.valueOf(endDate) : null);
+            stmt.setDate(15, startDate != null ? Date.valueOf(startDate) : null);
+            stmt.setDate(16, endDate != null ? Date.valueOf(endDate) : null);
 
             stmt.setInt(17, cvr.getProtection() ? 1 : 0);
 
@@ -262,7 +261,7 @@ public class CvrDbDAO implements ICvrDbDAO {
 
     public boolean exists(String cvrNumber) throws Exception {
         String sql = """
-                SELECT *
+                SELECT Cvr
                 FROM CVR
                 WHERE Cvr = ?""";
 
