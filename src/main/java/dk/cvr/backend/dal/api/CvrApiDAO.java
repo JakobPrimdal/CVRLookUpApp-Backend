@@ -47,7 +47,7 @@ public class CvrApiDAO implements ICvrApiDAO
 
     public Cvr getCvrByNumber(String cvrNumber) throws Exception {
         try {
-            String url = BASE_URL + "?search=" + cvrNumber.trim() + "&format=json&country=dk";
+            String url = BASE_URL + "?search=" + cvrNumber.trim() + "&country=dk";
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))

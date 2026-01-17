@@ -15,13 +15,13 @@ public class Cvr {
     private String website;                // Hjemmeside
     private String email;                  // Email
     private String fax;                    // Faxnummer
-    private String startDate;              // Etableret dato (YYYY-MM-DD)
-    private String endDate;                // Lukket dato (YYYY-MM-DD)
+    private String startdate;              // Etableret dato (YYYY-MM-DD)
+    private String enddate;                // Lukket dato (YYYY-MM-DD)
     private Integer employees;             // Antal medarbejdere
-    private Integer industryCode;          // Branchekode nummer
-    private String industryDesc;           // Branchekode beskrivelse
-    private String companyType;            // Virksomhedstype (kort)
-    private String companyDesc;            // Virksomhedstype (fuld)
+    private Integer industrycode;          // Branchekode nummer
+    private String industrydesc;           // Branchekode beskrivelse
+    private String companytype;            // Virksomhedstype (kort)
+    private String companydesc;            // Virksomhedstype (fuld)
     private String[] owners;               // Ejere (array)
     private FinancialSummary[] financialSummary;  // Regnskabsdata (array)
     private String lastUpdated;
@@ -124,16 +124,16 @@ public class Cvr {
             this.fax = fax;
     }
 
-    public String getStartdate() { return startDate; }
+    public String getStartdate() { return startdate; }
     public void setStartdate(LocalDate startDate) {
         if (startDate != null)
-            this.startDate = String.valueOf(startDate);
+            this.startdate = String.valueOf(startDate);
     }
 
-    public String getEnddate() { return endDate; }
+    public String getEnddate() { return enddate; }
     public void setEnddate(LocalDate endDate) {
         if (endDate != null)
-            this.endDate = String.valueOf(endDate);
+            this.enddate = String.valueOf(endDate);
     }
 
     public Integer getEmployees() { return employees; }
@@ -142,28 +142,28 @@ public class Cvr {
             this.employees = employees;
     }
 
-    public Integer getIndustrycode() { return industryCode; }
+    public Integer getIndustrycode() { return industrycode; }
     public void setIndustrycode(Integer industrycode) {
         if (industrycode != null)
-            this.industryCode = industrycode;
+            this.industrycode = industrycode;
     }
 
-    public String getIndustrydesc() { return industryDesc; }
+    public String getIndustrydesc() { return industrydesc; }
     public void setIndustrydesc(String industrydesc) {
         if (industrydesc != null)
-            this.industryDesc = industrydesc;
+            this.industrydesc = industrydesc;
     }
 
-    public String getCompanytype() { return companyType; }
+    public String getCompanytype() { return companytype; }
     public void setCompanytype(String companytype) {
         if (companytype != null)
-            this.companyType = companytype;
+            this.companytype = companytype;
     }
 
-    public String getCompanydesc() { return companyDesc; }
+    public String getCompanydesc() { return companydesc; }
     public void setCompanydesc(String companydesc) {
         if (companydesc != null)
-            this.companyDesc = companydesc;
+            this.companydesc = companydesc;
     }
 
     public String[] getOwners() { return owners; }
