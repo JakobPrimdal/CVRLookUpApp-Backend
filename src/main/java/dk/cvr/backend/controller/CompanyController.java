@@ -15,23 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class CompanyController {
     private CvrManager manager;
 
-    public CompanyController() {
+    public CompanyController() throws Exception {
         try {
             manager = new CvrManager();
         } catch (Exception e) {
-            // Display error to user???
-            throw new RuntimeException(e);
+            throw new Exception("Failed to instantiate manager class in backend: " + e.getMessage());
         }
     }
 
     @GetMapping("/{cvr}")
-    public Cvr getCompany(@PathVariable String cvr) {
+    public Cvr getCompany(@PathVariable String cvr) throws Exception {
         try {
             return manager.getCvrByNumber(cvr);
         } catch (Exception e) {
-            // Display error to user?????
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+            throw new Exception("Failed to retrieve company data from backend: " + e.getMessage());
         }
     }
 }
