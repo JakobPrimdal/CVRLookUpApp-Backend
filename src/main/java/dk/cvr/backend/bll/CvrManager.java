@@ -27,7 +27,8 @@ public class CvrManager {
         if (exists) {
             Cvr db = dbDao.getCvrByNumber(cvrNumber);
 
-            LocalDateTime lastUpdated = LocalDateTime.parse(db.getLastUpdated());
+            String lastUpdatedStr = db.getLastUpdated().replace(" ", "T");
+            LocalDateTime lastUpdated = LocalDateTime.parse(lastUpdatedStr);
             LocalDateTime cutOffTime = LocalDateTime.now().minusHours(24);
 
             if (lastUpdated.isAfter(cutOffTime)) {

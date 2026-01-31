@@ -181,7 +181,7 @@ public class Cvr {
     public String getLastUpdated() { return lastUpdated; }
     public void setLastUpdated(LocalDateTime lastUpdated) {
         if (lastUpdated != null)
-            this.lastUpdated = lastUpdated.toString();
+            this.lastUpdated = lastUpdated.toString().replace("T", " ");
     }
 
     @Override

@@ -99,7 +99,8 @@ public class CvrDbDAO implements ICvrDbDAO {
             stmt.setDate(16, startDate != null ? Date.valueOf(startDate) : null);
             stmt.setDate(17, endDate != null ? Date.valueOf(endDate) : null);
 
-            stmt.setInt(18, newCvr.getProtection() ? 1 : 0);
+            Boolean protection = newCvr.getProtection();
+            stmt.setInt(18, (protection != null && protection) ? 1 : 0);
 
             String[] owners = newCvr.getOwners();
             stmt.setString(19, owners != null ? Arrays.toString(owners) : null);
@@ -113,7 +114,7 @@ public class CvrDbDAO implements ICvrDbDAO {
     }
 
     public Cvr updateCvr(Cvr cvr) throws Exception {
-        String sql = """
+        String sql = """    
         UPDATE CVR
         SET Name = ?, Address = ?, City = ?, Zipcode = ?,
             CompanyDesc = ?, CompanyType = ?, Status = ?,
@@ -174,7 +175,8 @@ public class CvrDbDAO implements ICvrDbDAO {
             stmt.setDate(15, startDate != null ? Date.valueOf(startDate) : null);
             stmt.setDate(16, endDate != null ? Date.valueOf(endDate) : null);
 
-            stmt.setInt(17, cvr.getProtection() ? 1 : 0);
+            Boolean protection = cvr.getProtection();
+            stmt.setInt(17, (protection != null && protection) ? 1 : 0);
 
             String[] owners = cvr.getOwners();
             stmt.setString(18, owners != null ? Arrays.toString(owners) : null);
