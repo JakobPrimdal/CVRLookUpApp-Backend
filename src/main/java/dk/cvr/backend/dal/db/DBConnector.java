@@ -1,43 +1,21 @@
 package dk.cvr.backend.dal.db;
 
-// Project imports
-import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-
 // Java imports
-import java.io.*;
 import java.sql.Connection;
-import java.util.Properties;
+import org.springframework.stereotype.Component;
+import javax.sql.DataSource;
 
+@Component
 public class DBConnector {
 
-    private static final String PROP_FILE = "config/database.settings";
-    private SQLServerDataSource dataSource;
+    private final DataSource dataSource;
 
-    public DBConnector() throws IOException {
-        Properties databaseProperties = new Properties();
-        databaseProperties.load(new FileInputStream(new File(PROP_FILE)));
-
-        dataSource = new SQLServerDataSource();
-
-        dataSource.setServerName(databaseProperties.getProperty("Server"));
-        dataSource.setDatabaseName(databaseProperties.getProperty("Database"));
-        dataSource.setUser(databaseProperties.getProperty("User"));
-        dataSource.setPassword(databaseProperties.getProperty("Password"));
-
-        dataSource.setTrustServerCertificate(true);
+    public DBConnector(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
-    public Connection getConnection() throws SQLServerException {
+    public Connection getConnection() throws Exception {
         return dataSource.getConnection();
-    }
-
-    public static void main(String[] args) throws Exception {
-        DBConnector dbConnector = new DBConnector();
-
-        try (Connection connection = dbConnector.getConnection()) {
-            System.out.println("Is it open? " + !connection.isClosed());
-        } // Connection gets closed here
     }
 
 }

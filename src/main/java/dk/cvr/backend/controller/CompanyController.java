@@ -17,12 +17,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class CompanyController {
     private CvrManager manager;
 
-    public CompanyController() throws Exception {
-        try {
-            manager = new CvrManager();
-        } catch (Exception e) {
-            throw new Exception("Failed to instantiate manager class in backend: " + e.getMessage());
-        }
+    public CompanyController(CvrManager manager) {
+        this.manager = manager;
     }
 
     @GetMapping("/{cvr}")

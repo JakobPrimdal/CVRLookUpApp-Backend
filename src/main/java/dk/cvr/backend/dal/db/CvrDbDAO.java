@@ -1,12 +1,10 @@
 package dk.cvr.backend.dal.db;
 
-// Maven dependencies
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-
 // Project imports
 import dk.cvr.backend.be.Cvr;
 import dk.cvr.backend.dal.ICvrDbDAO;
 import dk.cvr.backend.dal.db.DBConnector;
+import org.springframework.stereotype.Repository;
 
 // Java imports
 import java.sql.*;
@@ -14,11 +12,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+@Repository
 public class CvrDbDAO implements ICvrDbDAO {
     private DBConnector databaseConnector;
 
-    public CvrDbDAO() throws Exception {
-        databaseConnector = new DBConnector();
+    public CvrDbDAO(DBConnector databaseConnector) {
+        this.databaseConnector = databaseConnector;
     }
 
     public Cvr getCvrByNumber(String cvrNumber) throws Exception {

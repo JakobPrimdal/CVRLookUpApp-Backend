@@ -1,0 +1,22 @@
+CREATE TABLE CVR (
+     Cvr VARCHAR(20) PRIMARY KEY,
+     Name VARCHAR(255),
+     Address VARCHAR(255),
+     City VARCHAR(100),
+     Zipcode INT,
+     CompanyDesc VARCHAR(255),
+     CompanyType VARCHAR(100),
+     Status VARCHAR(100),
+     IndustryDesc VARCHAR(255),
+     IndustryCode INT,
+     Employees INT,
+     PhoneNum VARCHAR(50),
+     Fax VARCHAR(50),
+     Email VARCHAR(100),
+     Website VARCHAR(255),
+     StartDate DATE,
+     EndDate DATE,
+     Protected INT,
+     Owners VARCHAR(1000),
+     LastUpdated TIMESTAMP
+);

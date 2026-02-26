@@ -7,15 +7,19 @@ import dk.cvr.backend.dal.api.CvrApiDAO;
 import dk.cvr.backend.dal.ICvrApiDAO;
 import dk.cvr.backend.dal.db.CvrDbDAO;
 
+// Spring imports
+import org.springframework.stereotype.Service;
+
 // Java imports
 import java.time.LocalDateTime;
 
+@Service
 public class CvrManager {
     private ICvrApiDAO apiDao = new CvrApiDAO();
     private ICvrDbDAO dbDao;
 
-    public CvrManager() throws Exception {
-        dbDao = new CvrDbDAO();
+    public CvrManager(ICvrDbDAO dbDao) throws Exception {
+        this.dbDao = dbDao;
     }
 
     public Cvr getCvrByNumber(String cvrNumber) throws Exception {
