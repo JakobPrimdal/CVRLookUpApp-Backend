@@ -1,8 +1,8 @@
 package dk.cvr.backend.controller;
 
 // Project imports
-import dk.cvr.backend.be.Cvr;
 import dk.cvr.backend.bll.CvrManager;
+import dk.cvr.backend.dto.CompanyResponseDTO;
 
 // Spring imports
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ public class CompanyController {
     }
 
     @GetMapping("/{cvr}")
-    public Cvr getCompany(@PathVariable String cvr) throws Exception {
+    public CompanyResponseDTO getCompany(@PathVariable String cvr) throws Exception {
         try {
             return manager.getCvrByNumber(cvr);
         } catch (Exception e) {
