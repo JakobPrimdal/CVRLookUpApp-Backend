@@ -30,7 +30,7 @@ public class CompanyResponseDTO {
     private String companytype;
     private String companydesc;
 
-    private List<String> owners;
+    private String[] owners;
 
 
     public CompanyResponseDTO(
@@ -52,8 +52,7 @@ public class CompanyResponseDTO {
             String industrydesc,
             String companytype,
             String companydesc,
-            List<String> owners,
-            String lastUpdated
+            String[] owners
     ) {
         this.vat = vat;
         this.name = name;
@@ -94,5 +93,5 @@ public class CompanyResponseDTO {
     public String getIndustrydesc() { return industrydesc; }
     public String getCompanytype() { return companytype; }
     public String getCompanydesc() { return companydesc; }
-    public List<String> getOwners() { return owners; }
+    public String[] getOwners() { return owners; }
 }

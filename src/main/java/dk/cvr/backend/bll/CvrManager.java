@@ -8,6 +8,8 @@ import dk.cvr.backend.dal.ICvrApiDAO;
 import dk.cvr.backend.dto.CompanyResponseDTO;
 
 // Spring imports
+import dk.cvr.backend.exception.CompanyNotFoundException;
+import dk.cvr.backend.exception.CompanyServiceException;
 import org.springframework.stereotype.Service;
 
 // Java imports
@@ -24,38 +26,45 @@ public class CvrManager {
         this.dbDao = dbDao;
     }
 
-    public CompanyResponseDTO getCvrByNumber(String cvrNumber) throws Exception {
-
+    public CompanyResponseDTO getCvrByNumber(String cvrNumber) {
         // DB-Cache Logic
+        try {
+            Cvr company = null;
 
-        Cvr company;
+            boolean exists = dbDao.exists(cvrNumber);
 
-        boolean exists = dbDao.exists(cvrNumber);
+            if (exists) {
+                Cvr db = dbDao.getCvrByNumber(cvrNumber);
 
-        if (exists) {
-            Cvr db = dbDao.getCvrByNumber(cvrNumber);
+                if (db == null)
+                    throw new CompanyNotFoundException("Company with CVR " + cvrNumber + " not found");
 
-            String lastUpdatedStr = db.getLastUpdated().replace(" ", "T");
-            LocalDateTime lastUpdated = LocalDateTime.parse(lastUpdatedStr);
-            LocalDateTime cutOffTime = LocalDateTime.now().minusHours(24);
+                String lastUpdatedStr = db.getLastUpdated().replace(" ", "T");
+                LocalDateTime lastUpdated = LocalDateTime.parse(lastUpdatedStr);
+                LocalDateTime cutOffTime = LocalDateTime.now().minusHours(24);
 
-            if (lastUpdated.isAfter(cutOffTime)) {
-                // if cvr exists in DB && is less than 24 hours old - return cvr from DB
-                company = db;
+                if (lastUpdated.isAfter(cutOffTime)) {
+                    company = db;
+                } else {
+                    company = apiDao.getCvrByNumber(cvrNumber);
+                    dbDao.updateCvr(company);
+                }
+
             } else {
-                // if cvr exists in DB && isn't less than 24 hours old - update cvr in DB
                 company = apiDao.getCvrByNumber(cvrNumber);
-                dbDao.updateCvr(company);
+                dbDao.createCvr(company);
             }
 
-        } else {
-            // if cvr !exists in DB then - get cvr from API and create new cvr in DB
-            company = apiDao.getCvrByNumber(cvrNumber);
-            dbDao.createCvr(company);
+            if (company == null)
+                throw new CompanyNotFoundException("Company with CVR " + cvrNumber + " not found");
+
+            return mapToDTO(company);
+
+        } catch (CompanyNotFoundException e) {
+            throw e; // handled by GlobalExceptionHandler
+        } catch (Exception e) {
+            throw new CompanyServiceException("Database or API error while fetching CVR " + cvrNumber, e);
         }
-
-        return mapToDTO(company);
-
     }
 
     private CompanyResponseDTO mapToDTO(Cvr company) {
@@ -84,8 +93,7 @@ public class CvrManager {
                 company.getIndustrydesc(),
                 company.getCompanytype(),
                 company.getCompanydesc(),
-                List.of(company.getOwners()),
-                company.getLastUpdated()
+                company.getOwners()
         );
 
     }
