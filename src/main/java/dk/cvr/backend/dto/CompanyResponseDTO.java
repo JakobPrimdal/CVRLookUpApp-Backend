@@ -1,5 +1,6 @@
 package dk.cvr.backend.dto;
 
+// Java imports
 import java.util.List;
 
 public class CompanyResponseDTO {
