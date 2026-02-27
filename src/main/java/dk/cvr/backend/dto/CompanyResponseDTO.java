@@ -32,7 +32,6 @@ public class CompanyResponseDTO {
 
     private List<String> owners;
 
-    private String lastUpdated;
 
     public CompanyResponseDTO(
             String vat,
@@ -75,7 +74,6 @@ public class CompanyResponseDTO {
         this.companytype = companytype;
         this.companydesc = companydesc;
         this.owners = owners;
-        this.lastUpdated = lastUpdated;
     }
 
     public String getVat() { return vat; }
@@ -97,5 +95,4 @@ public class CompanyResponseDTO {
     public String getCompanytype() { return companytype; }
     public String getCompanydesc() { return companydesc; }
     public List<String> getOwners() { return owners; }
-    public String getLastUpdated() { return lastUpdated; }
 }
