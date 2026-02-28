@@ -99,7 +99,7 @@ public class CvrDbDAO implements ICvrDbDAO {
             stmt.setDate(17, endDate != null ? Date.valueOf(endDate) : null);
 
             Boolean protection = newCvr.getProtection();
-            stmt.setInt(18, (protection != null && protection) ? 1 : 0);
+            stmt.setBoolean(18, protection != null && protection);
 
             String[] owners = newCvr.getOwners();
             stmt.setString(19, owners != null ? Arrays.toString(owners) : null);
@@ -175,7 +175,7 @@ public class CvrDbDAO implements ICvrDbDAO {
             stmt.setDate(16, endDate != null ? Date.valueOf(endDate) : null);
 
             Boolean protection = cvr.getProtection();
-            stmt.setInt(17, (protection != null && protection) ? 1 : 0);
+            stmt.setBoolean(17, protection != null && protection);
 
             String[] owners = cvr.getOwners();
             stmt.setString(18, owners != null ? Arrays.toString(owners) : null);
@@ -218,7 +218,7 @@ public class CvrDbDAO implements ICvrDbDAO {
             company.setAddress(rs.getString("Address"));
             company.setCity(rs.getString("City"));
             Integer zipcode = rs.getObject("Zipcode", Integer.class);
-            company.setZipcode(zipcode != null ? zipcode : 0);
+            company.setZipcode(zipcode);
 
             company.setCompanydesc(rs.getString("CompanyDesc"));
             company.setCompanytype(rs.getString("CompanyType"));
@@ -226,10 +226,10 @@ public class CvrDbDAO implements ICvrDbDAO {
             company.setIndustrydesc(rs.getString("IndustryDesc"));
 
             Integer industryCode = rs.getObject("IndustryCode", Integer.class);
-            company.setIndustrycode(industryCode != null ? industryCode : 0);
+            company.setIndustrycode(industryCode);
 
             Integer employees = rs.getObject("Employees", Integer.class);
-            company.setEmployees(employees != null ? employees : 0);
+            company.setEmployees(employees);
 
             company.setPhone(rs.getString("PhoneNum"));
             company.setFax(rs.getString("Fax"));
@@ -242,8 +242,8 @@ public class CvrDbDAO implements ICvrDbDAO {
             Date end = rs.getDate("EndDate");
             company.setEnddate(end != null ? end.toLocalDate() : null);
 
-            Integer protectedValue = rs.getObject("Protected", Integer.class);
-            company.setProtection(protectedValue != null && protectedValue == 1);
+            Boolean protectedValue = rs.getObject("Protected", Boolean.class);
+            company.setProtection(protectedValue != null && protectedValue);
 
             String owners = rs.getString("Owners");
             company.setOwners(owners != null ? owners.replace("[", "").replace("]", "").split(", ") : new String[0]);
