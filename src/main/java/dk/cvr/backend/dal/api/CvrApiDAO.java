@@ -9,6 +9,9 @@ import com.google.gson.JsonSyntaxException;
 import dk.cvr.backend.be.Cvr;
 import dk.cvr.backend.dal.ICvrApiDAO;
 
+// Spring imports
+import org.springframework.beans.factory.annotation.Value;
+
 // Java imports
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,6 +25,8 @@ import java.util.Properties;
 
 public class CvrApiDAO implements ICvrApiDAO
 {
+    @Value("${external.api.key}")
+    private String apiKey;
     private static final String BASE_URL = "https://virkdata.dk/api/";
     private final HttpClient httpClient;
     private final Gson gson;
@@ -52,7 +57,7 @@ public class CvrApiDAO implements ICvrApiDAO
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .header("User-Agent", "CvrLookupApp/1.0")
-                    .header("Authorization", getAPIKey())
+                    .header("Authorization", apiKey)
                     .GET()
                     .build();
 
