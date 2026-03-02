@@ -14,6 +14,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CompanyNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> handleCompanyNotFound(CompanyNotFoundException e) {
+        e.printStackTrace();
         ErrorResponseDTO err = new ErrorResponseDTO(
                 e.getMessage(),
                 HttpStatus.NOT_FOUND.value()
