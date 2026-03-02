@@ -3,13 +3,12 @@ package dk.cvr.backend.bll;
 // Project imports
 import dk.cvr.backend.be.Cvr;
 import dk.cvr.backend.dal.ICvrDbDAO;
-import dk.cvr.backend.dal.api.CvrApiDAO;
 import dk.cvr.backend.dal.ICvrApiDAO;
 import dk.cvr.backend.dto.CompanyResponseDTO;
-
-// Spring imports
 import dk.cvr.backend.exception.CompanyNotFoundException;
 import dk.cvr.backend.exception.CompanyServiceException;
+
+// Spring imports
 import org.springframework.stereotype.Service;
 
 // Java imports
@@ -19,11 +18,12 @@ import java.util.List;
 
 @Service
 public class CvrManager {
-    private ICvrApiDAO apiDao = new CvrApiDAO();
+    private ICvrApiDAO apiDao;
     private ICvrDbDAO dbDao;
 
-    public CvrManager(ICvrDbDAO dbDao) throws Exception {
+    public CvrManager(ICvrDbDAO dbDao, ICvrApiDAO apiDao) throws Exception {
         this.dbDao = dbDao;
+        this.apiDao = apiDao;
     }
 
     public CompanyResponseDTO getCvrByNumber(String cvrNumber) {

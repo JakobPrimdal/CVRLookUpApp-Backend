@@ -11,18 +11,16 @@ import dk.cvr.backend.dal.ICvrApiDAO;
 
 // Spring imports
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 // Java imports
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Properties;
 
-
+@Repository
 public class CvrApiDAO implements ICvrApiDAO
 {
     @Value("${external.api.key}")
@@ -97,20 +95,6 @@ public class CvrApiDAO implements ICvrApiDAO
         } catch (JsonSyntaxException e) {
             throw new Exception("Invalid JSON response from CVR API", e);
         }
-    }
-
-    private static String getAPIKey() {
-        Properties accessKey = new Properties();
-        try {
-            File keyFile = new File("config/API.key");
-            if (!keyFile.exists()) {
-                throw new RuntimeException("API.key file is missing, place it in the config package.");
-            }
-            accessKey.load(new FileInputStream(keyFile));
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to read API.key");
-        }
-        return accessKey.getProperty("API_Key");
     }
 
 }
