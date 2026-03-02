@@ -12,27 +12,25 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-//    @ExceptionHandler(CompanyNotFoundException.class)
-//    public ResponseEntity<ErrorResponseDTO> handleCompanyNotFound(CompanyNotFoundException e) {
-//        e.printStackTrace();
-//        ErrorResponseDTO err = new ErrorResponseDTO(
-//                e.getMessage(),
-//                HttpStatus.NOT_FOUND.value()
-//        );
-//
-//        return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
-//    }
-//
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<ErrorResponseDTO> handleGeneralException(Exception e) {
-//        ErrorResponseDTO err = new ErrorResponseDTO(
-//                "Something went wrong",
-//                HttpStatus.INTERNAL_SERVER_ERROR.value()
-//        );
-//
-//        return new ResponseEntity<>(err, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-//
-//
+    @ExceptionHandler(CompanyNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleCompanyNotFound(CompanyNotFoundException e) {
+        ErrorResponseDTO err = new ErrorResponseDTO(
+                e.getMessage(),
+                HttpStatus.NOT_FOUND.value()
+        );
 
+        return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CompanyServiceException.class)
+    public ResponseEntity<ErrorResponseDTO> handleCompanyServiceException(CompanyServiceException e) {
+        e.printStackTrace();
+
+        ErrorResponseDTO err = new ErrorResponseDTO(
+                "Internal server error while processing company request",
+                HttpStatus.INTERNAL_SERVER_ERROR.value()
+        );
+
+        return new ResponseEntity<>(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

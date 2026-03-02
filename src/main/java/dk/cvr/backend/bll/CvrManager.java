@@ -52,6 +52,10 @@ public class CvrManager {
 
             } else {
                 company = apiDao.getCvrByNumber(cvrNumber);
+
+                if (company.getVat().isBlank())
+                    throw new CompanyNotFoundException("Company with " + cvrNumber + " does not exists.");
+
                 dbDao.createCvr(company);
             }
 
