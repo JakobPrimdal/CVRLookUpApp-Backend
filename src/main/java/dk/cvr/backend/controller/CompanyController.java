@@ -26,6 +26,7 @@ public class CompanyController {
         try {
             return manager.getCvrByNumber(cvr);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new Exception("Failed to retrieve company data from backend: " + e.getMessage());
         }
     }
