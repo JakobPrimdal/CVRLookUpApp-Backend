@@ -24,7 +24,6 @@ public class CompanyController {
 
     @GetMapping("/{cvr}")
     public CompanyResponseDTO getCompany(@PathVariable String cvr) {
-        throw new CompanyNotFoundException("Test Exception");
-        //return manager.getCvrByNumber(cvr);
+        return manager.getCvrByNumber(cvr);
     }
 }
