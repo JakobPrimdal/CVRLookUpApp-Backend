@@ -1,78 +1,226 @@
-CVR Lookup Application - Backend
+# CVR Lookup Application – Backend
 
-* A Spring Boot backend service that provides a REST API for looking up publicly available information about Danish companies using their CVR number.
-* The backend acts as an intermediary between the frontend application and the external CVR data provider, ensuring secure API access and clean separation of concerns.
+A **Spring Boot REST API** that allows users to look up publicly available information about Danish companies using their **CVR number**.
 
-Features
+The backend acts as an intermediary between a frontend application and the official Danish CVR data provider.
+It securely handles API credentials and implements a **database cache** to reduce external API calls and improve performance.
+
+This project is part of a full-stack application where a separate frontend consumes the API.
+
+---
+
+## Features
+
 * REST API for CVR company lookup
-* Integration with the external Danish CVR data provider (virkdata.dk)
-* Secure handling of API credentials (not exposed to frontend)
-* Database-based caching to minimize external API calls
+* Integration with the Danish CVR data provider (virkdata.dk)
+* Secure handling of API credentials using environment variables
+* PostgreSQL database caching to minimize external API calls
+* 24-hour cache expiration strategy
+* Structured API responses using Data Transfer Objects (DTOs)
+* Centralized error handling
 * Clean layered architecture
-* Designed to be used by a separate frontend application (e.g., JavaFX)
+* Designed to be consumed by a separate frontend application
 
-Architecture
-* The backend is built using a layered architecture:
+---
 
-Controller layer
-* Exposes REST endpoints for CVR lookup
+## Tech Stack
 
-Business Logic Layer (BLL)
-* Determines whether to return cached data or call the api, and only returns cached data if it's less than 24 hours old
-  
-Data Access Layer (DAL)
-* Handles communication with the external CVR API + Database cache
+**Backend**
 
-Business Entities (BE)
-* Domain models representing Danish companies
-The backend decouples the frontend from the external CVR API, allowing the system to be extended with caching(In progress), authentication, or additional data sources in the future.
-
-Prerequisites
-
-* Java 11 or higher
+* Java
+* Spring Boot
 * Maven
-* Valid API key for the CVR data provider
+* PostgreSQL
 
-API Configuration
-* The backend uses one configuration source: config/API.key - See the example file in the config-package
+**Deployment**
 
-Database cache behavior
-* The backend implements a 24-hour cache:
-1. When a request is received, the backend first checks the database  
-2. If the CVR number exists **and is less than 24 hours old**, data is returned from the database  
-3. If the CVR number is **missing or older than 24 hours**:
-   - Data is fetched from the external CVR API  
-   - The database is updated  
-   - The fresh data is returned to the client  
+* Hosted on Render
 
-* This reduces external API usage and improves performance.
+---
 
-Running the Application
-* Create a config folder in the project root
-* Add an API.key file containing your CVR API key
-* Run the Spring Boot application
-* The backend will be available on http://localhost:8080
+## Architecture
 
-API Endpoint
-* /api/company/{cvr}
-* Returns company information for the given Danish CVR number.
+The backend follows a layered architecture.
 
-For testing purposes, you can use these real Danish companies:
-* 10150817 - Erhvervsstyrelsen
-* 36213728 - Ørsted A/S
-* 54562519 - LEGO A/S
+### Controller Layer
 
-Project Structure
+Exposes REST endpoints used by the frontend application.
 
-* controller   – REST endpoints
-* bll          – Business Logic + cache handling
-* dal          – External API communication + database access
-* be           – Business entities
-* config       – External configuration (not tracked in Git)
+### Business Logic Layer (BLL)
 
-If you encounter any issues or have questions:
-* Open an issue on GitHub
-* Check existing issues for solutions
-* Review the API documentation
+Handles application logic, including cache validation and determining whether data should be fetched from the database or the external API.
 
-Link to Frontend repo: https://github.com/JakobPrimdal/CVRLookUpApp-Frontend
+### Data Access Layer (DAL)
+
+Responsible for:
+
+* Communication with the external CVR API
+* Database access and caching
+
+### Business Entities (BE)
+
+Domain models representing Danish companies and their associated data.
+
+---
+
+## Database Cache Strategy
+
+The backend implements a **24-hour caching mechanism**.
+
+When a request is received:
+
+1. The database is checked for the requested CVR number.
+2. If cached data exists and is **less than 24 hours old**, it is returned immediately.
+3. If the data is **missing or expired**:
+
+   * The backend fetches fresh data from the external CVR API
+   * The database cache is updated
+   * The fresh data is returned to the client.
+
+This approach:
+
+* Reduces external API usage
+* Improves response times
+* Provides more stable API behaviour.
+
+---
+
+## Environment Configuration
+
+Sensitive configuration such as **API keys and database credentials** are not stored in the repository.
+
+Instead, they are provided as **environment variables** and injected into the application through `application.properties`.
+
+Example configuration:
+
+```properties
+cvr.api.key=${CVR_API_KEY}
+spring.datasource.url=${DB_URL}
+spring.datasource.username=${DB_USERNAME}
+spring.datasource.password=${DB_PASSWORD}
+```
+
+When deployed on Render, these variables are configured directly in the platform's environment settings.
+
+---
+
+## API Endpoint
+
+```
+GET /api/company/{cvr}
+```
+
+Returns company information for the given Danish CVR number.
+
+Example test companies:
+
+```
+54562519 – LEGO A/S
+36213728 – Ørsted A/S
+10150817 – Erhvervsstyrelsen
+```
+
+---
+
+## Data Transfer Objects (DTO)
+
+The API uses **DTOs (Data Transfer Objects)** to control what data is returned to the client.
+
+DTOs help ensure:
+
+* Internal domain models are not exposed directly
+* API responses remain stable even if internal models change
+* Only relevant data is returned to the frontend
+
+Current DTOs include:
+
+`CompanyResponseDTO`
+Contains the company data returned when a valid CVR number is requested.
+
+`ErrorResponseDTO`
+Standardized error response returned when an error occurs.
+
+Example error response:
+
+```json
+{
+  "error": "Company not found",
+  "message": "No company found for the provided CVR number",
+  "status": 404
+}
+```
+
+## Error Handling
+
+The backend implements structured error handling using custom exceptions and a global exception handler.
+
+### Custom Exceptions
+
+`CompanyNotFoundException`
+Thrown when a requested CVR number does not exist.
+
+`CompanyServiceException`
+Thrown when an unexpected error occurs while communicating with the external CVR API or internal services.
+
+### Global Exception Handler
+
+A centralized exception handler ensures that errors are converted into **consistent API responses**.
+
+This provides:
+
+* Clean error messages for the frontend
+* Consistent API behaviour
+
+---
+
+## Running the Application Locally
+
+1. Clone the repository
+
+2. Set the required environment variables:
+
+```
+CVR_API_KEY
+DB_URL
+DB_USERNAME
+DB_PASSWORD
+```
+
+3. Run the Spring Boot application.
+
+The backend will start on:
+
+```
+http://localhost:8080
+```
+
+---
+
+## Project Structure
+
+```
+controller  – REST API endpoints
+bll         – Business logic and cache validation
+dal         – External API communication and database access
+dto         – Data Transfer Objects used for API responses
+exception   – Custom exceptions and global error handling
+be          – Business entities (domain models)
+config      – Application configuration
+```
+
+---
+
+## Frontend
+
+This backend is designed to work with a separate frontend application.
+
+Frontend repository:
+
+https://github.com/JakobPrimdal/CVRLookUpApp-Frontend
+
+---
+
+## Author
+
+Jakob Primdal
+Datamatiker/Computer Science student
