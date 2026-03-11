@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @CrossOrigin(origins = {
-        "http://localhost:5173/",
-        "http://localhost:4173/"
+        "https://firmafinder.vercel.app"
 })
 @RestController
 @RequestMapping("/api/company")
