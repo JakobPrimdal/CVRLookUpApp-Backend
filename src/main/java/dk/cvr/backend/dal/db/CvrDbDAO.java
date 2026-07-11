@@ -4,6 +4,7 @@ package dk.cvr.backend.dal.db;
 import dk.cvr.backend.be.Cvr;
 import dk.cvr.backend.dal.ICvrDbDAO;
 import dk.cvr.backend.dal.db.DBConnector;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 // Java imports
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Repository
+@Profile("db") /** Remove this @Profile annotation if DB is ever needed again **/
 public class CvrDbDAO implements ICvrDbDAO {
     private DBConnector databaseConnector;
 

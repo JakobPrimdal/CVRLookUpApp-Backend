@@ -19,10 +19,15 @@ import java.util.List;
 @Service
 public class CvrManager {
     private ICvrApiDAO apiDao;
-    private ICvrDbDAO dbDao;
+    /**private ICvrDbDAO dbDao;**/
 
-    public CvrManager(ICvrDbDAO dbDao, ICvrApiDAO apiDao) throws Exception {
-        this.dbDao = dbDao;
+    /**
+     *  DB-Cache Logic has been switched off because the prod-DB has been deleted
+     *  - This means that this backend currently ONLY retrieves CVR-info from the API.
+     */
+
+    public CvrManager(/**ICvrDbDAO dbDao, **/ICvrApiDAO apiDao) throws Exception {
+        /**this.dbDao = dbDao;**/
         this.apiDao = apiDao;
     }
 
