@@ -27,37 +27,48 @@ public class CvrManager {
     }
 
     public CompanyResponseDTO getCvrByNumber(String cvrNumber) {
+
+        /**
+         *  DB-Cache Logic has been switched off because the prod-DB has been deleted
+         *  - This means that this backend currently ONLY retrieves CVR-info from the API.
+         */
         // DB-Cache Logic
         try {
-            Cvr company = null;
+//            Cvr company = null;
+//
+//            boolean exists = dbDao.exists(cvrNumber);
+//
+//            if (exists) {
+//                Cvr db = dbDao.getCvrByNumber(cvrNumber);
+//
+//                if (db == null)
+//                    throw new CompanyNotFoundException("Company with CVR " + cvrNumber + " not found");
+//
+//                String lastUpdatedStr = db.getLastUpdated().replace(" ", "T");
+//                LocalDateTime lastUpdated = LocalDateTime.parse(lastUpdatedStr);
+//                LocalDateTime cutOffTime = LocalDateTime.now().minusHours(24);
+//
+//                if (lastUpdated.isAfter(cutOffTime)) {
+//                    company = db;
+//                } else {
+//                    company = apiDao.getCvrByNumber(cvrNumber);
+//                    dbDao.updateCvr(company);
+//                }
+//
+//            } else {
+//                company = apiDao.getCvrByNumber(cvrNumber);
+//
+//                if (company.getVat().isBlank())
+//                    throw new CompanyNotFoundException("Company with " + cvrNumber + " does not exists.");
+//
+//                dbDao.createCvr(company);
+//            }
 
-            boolean exists = dbDao.exists(cvrNumber);
-
-            if (exists) {
-                Cvr db = dbDao.getCvrByNumber(cvrNumber);
-
-                if (db == null)
-                    throw new CompanyNotFoundException("Company with CVR " + cvrNumber + " not found");
-
-                String lastUpdatedStr = db.getLastUpdated().replace(" ", "T");
-                LocalDateTime lastUpdated = LocalDateTime.parse(lastUpdatedStr);
-                LocalDateTime cutOffTime = LocalDateTime.now().minusHours(24);
-
-                if (lastUpdated.isAfter(cutOffTime)) {
-                    company = db;
-                } else {
-                    company = apiDao.getCvrByNumber(cvrNumber);
-                    dbDao.updateCvr(company);
-                }
-
-            } else {
-                company = apiDao.getCvrByNumber(cvrNumber);
-
-                if (company.getVat().isBlank())
-                    throw new CompanyNotFoundException("Company with " + cvrNumber + " does not exists.");
-
-                dbDao.createCvr(company);
-            }
+            /**
+             *  Delete this line in case the DB-logic has to work again
+             *   - Cvr company = apiDao.getCvrByNumber(cvrNumber); -
+             */
+            Cvr company = apiDao.getCvrByNumber(cvrNumber);
 
             if (company == null)
                 throw new CompanyNotFoundException("Company with CVR " + cvrNumber + " not found");
