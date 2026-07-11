@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
-@Repository
+//@Repository /** uncomment this @Repository annotation if DB is ever needed again **/
 @Profile("db") /** Remove this @Profile annotation if DB is ever needed again **/
 public class CvrDbDAO implements ICvrDbDAO {
     private DBConnector databaseConnector;

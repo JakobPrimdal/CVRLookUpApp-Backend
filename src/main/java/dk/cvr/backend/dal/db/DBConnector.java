@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 
-@Component
+//@Component /** uncomment this @Component annotation if DB is ever needed again **/
 @Profile("db") /** Remove this @Profile annotation if DB is ever needed again **/
 public class DBConnector {
 
