@@ -35,8 +35,8 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-		<!--	Disabled because this backend currently is API-only
-            <dependency>-->
+		<!--	Disabled because this backend currently is API-only -->
+<!--        <dependency>-->
 <!--            <groupId>org.springframework.boot</groupId>-->
 <!--            <artifactId>spring-boot-starter-jdbc</artifactId>-->
 <!--        </dependency>-->
@@ -47,13 +47,13 @@
             <scope>test</scope>
         </dependency>
 
-		<!--	Disabled because this backend currently is API-only
+		<!--	Disabled because this backend currently is API-only -->
 <!--        <dependency>-->
 <!--            <groupId>org.postgresql</groupId>-->
 <!--            <artifactId>postgresql</artifactId>-->
 <!--        </dependency>-->
 
-		<!--	Disabled because this backend currently is API-only
+		<!--	Disabled because this backend currently is API-only -->
 <!--        <dependency>-->
 <!--            <groupId>org.flywaydb</groupId>-->
 <!--            <artifactId>flyway-core</artifactId>-->
